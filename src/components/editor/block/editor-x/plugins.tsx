@@ -102,6 +102,7 @@ import { EditModeTogglePlugin } from '../../plugins/actions/edit-mode-toggle-plu
 import { ClearEditorActionPlugin } from '../../plugins/actions/clear-editor-plugin'
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin'
 import { TreeViewPlugin } from '../../plugins/actions/tree-view-plugin'
+import { ScrollArea, ScrollBar } from '~/components/ui/scroll-area'
 
 const placeholder = 'Press / for commands...'
 const maxLength = 50000
@@ -120,63 +121,109 @@ export function Plugins() {
     }
   }
 
+  // vertical-align-middle sticky top-0 z-10 flex gap-2 overflow-auto border-b p-1
   return (
     <div className='relative'>
       <ToolbarPlugin>
         {({ blockType }) => (
-          <div className='vertical-align-middle sticky top-0 z-10 flex gap-2 overflow-auto border-b p-1'>
-            <HistoryToolbarPlugin />
-            <Separator orientation='vertical' className='h-7!' />
-            <BlockFormatDropDown>
-              <FormatParagraph />
-              <FormatHeading levels={['h1', 'h2', 'h3', 'h4', 'h5', 'h6']} />
-              <FormatNumberedList />
-              <FormatBulletedList />
-              <FormatCheckList />
-              <FormatCodeBlock />
-              <FormatQuote />
-            </BlockFormatDropDown>
-            {blockType === 'code' ? (
-              <CodeLanguageToolbarPlugin />
-            ) : (
-              <>
-                <FontFamilyToolbarPlugin />
-                <FontSizeToolbarPlugin />
-                <Separator orientation='vertical' className='h-7!' />
-                <FontFormatToolbarPlugin />
-                <Separator orientation='vertical' className='h-7!' />
-                <SubSuperToolbarPlugin />
-                <LinkToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />
-                <Separator orientation='vertical' className='h-7!' />
-                <ClearFormattingToolbarPlugin />
-                <Separator orientation='vertical' className='h-7!' />
-                <FontColorToolbarPlugin />
-                <FontBackgroundToolbarPlugin />
-                <Separator orientation='vertical' className='h-7!' />
-                <ElementFormatToolbarPlugin />
-                <Separator orientation='vertical' className='h-7!' />
-                <BlockInsertPlugin>
-                  <InsertHorizontalRule />
-                  <InsertImage />
-                  <InsertTable />
-                  <InsertColumnsLayout />
-                  <InsertEmbeds />
-                </BlockInsertPlugin>
-              </>
-            )}
-          </div>
+          <ScrollArea className='w-full mx-auto flex items-center border-b p-1 bg-muted'>
+            <div className='flex items-center gap-1 flex-wrap p-2'>
+              <HistoryToolbarPlugin />
+              <Separator orientation='vertical' className='h-7!' />
+              <BlockFormatDropDown>
+                <FormatParagraph />
+                <FormatHeading levels={['h1', 'h2', 'h3', 'h4', 'h5', 'h6']} />
+                <FormatNumberedList />
+                <FormatBulletedList />
+                <FormatCheckList />
+                <FormatCodeBlock />
+                <FormatQuote />
+              </BlockFormatDropDown>
+              {blockType === 'code' ? (
+                <CodeLanguageToolbarPlugin />
+              ) : (
+                <>
+                  <FontFamilyToolbarPlugin />
+                  <FontSizeToolbarPlugin />
+                  <Separator orientation='vertical' className='h-7!' />
+                  <FontFormatToolbarPlugin />
+                  <Separator orientation='vertical' className='h-7!' />
+                  <SubSuperToolbarPlugin />
+                  <LinkToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />
+                  <Separator orientation='vertical' className='h-7!' />
+                  <ClearFormattingToolbarPlugin />
+                  <Separator orientation='vertical' className='h-7!' />
+                  <FontColorToolbarPlugin />
+                  <FontBackgroundToolbarPlugin />
+                  <Separator orientation='vertical' className='h-7!' />
+                  <ElementFormatToolbarPlugin />
+                  <Separator orientation='vertical' className='h-7!' />
+                  <BlockInsertPlugin>
+                    <InsertHorizontalRule />
+                    <InsertImage />
+                    <InsertTable />
+                    <InsertColumnsLayout />
+                    <InsertEmbeds />
+                  </BlockInsertPlugin>
+                </>
+              )}
+            </div>
+            <ScrollBar orientation='horizontal' />
+          </ScrollArea>
         )}
       </ToolbarPlugin>
+      <ActionsPlugin>
+        <ScrollArea className='w-full mx-auto flex items-center bg-muted border-b p-1'>
+          <div className='clear-both flex items-center justify-between gap-5'>
+            <div className='flex flex-1 justify-start'>
+              <MaxLengthPlugin maxLength={maxLength} />
+              <CharacterLimitPlugin maxLength={maxLength} charset='UTF-16' />
+            </div>
+            <div>
+              <CounterCharacterPlugin charset='UTF-16' />
+            </div>
+            <div className='flex flex-1 justify-end'>
+              <SpeechToTextPlugin />
+              <ShareContentPlugin />
+              <ImportExportPlugin />
+              <MarkdownTogglePlugin
+                shouldPreserveNewLinesInMarkdown={true}
+                transformers={[
+                  TABLE,
+                  HR,
+                  IMAGE,
+                  EMOJI,
+                  TWEET,
+                  CHECK_LIST,
+                  ...ELEMENT_TRANSFORMERS,
+                  ...MULTILINE_ELEMENT_TRANSFORMERS,
+                  ...TEXT_FORMAT_TRANSFORMERS,
+                  ...TEXT_MATCH_TRANSFORMERS,
+                ]}
+              />
+              <EditModeTogglePlugin />
+              <>
+                <ClearEditorActionPlugin />
+                <ClearEditorPlugin />
+              </>
+              <TreeViewPlugin />
+            </div>
+          </div>
+          <ScrollBar orientation='horizontal' />
+        </ScrollArea>
+      </ActionsPlugin>
       <div className='relative'>
         <AutoFocusPlugin />
         <RichTextPlugin
           contentEditable={
             <div className=''>
               <div className='' ref={onRef}>
-                <ContentEditable
-                  placeholder={placeholder}
-                  className='ContentEditable__root relative block h-[calc(100vh-90px)] min-h-72 overflow-auto px-8 py-4 focus:outline-none'
-                />
+                <ScrollArea className='h-[85vh] min-h-72'>
+                  <ContentEditable
+                    placeholder={placeholder}
+                    className='ContentEditable__root relative block h-full  overflow-auto px-8 py-4 focus:outline-none'
+                  />
+                </ScrollArea>
               </div>
             </div>
           }
@@ -266,43 +313,6 @@ export function Plugins() {
           setIsLinkEditMode={setIsLinkEditMode}
         />
       </div>
-      <ActionsPlugin>
-        <div className='clear-both flex items-center justify-between gap-2 overflow-auto border-t p-1'>
-          <div className='flex flex-1 justify-start'>
-            <MaxLengthPlugin maxLength={maxLength} />
-            <CharacterLimitPlugin maxLength={maxLength} charset='UTF-16' />
-          </div>
-          <div>
-            <CounterCharacterPlugin charset='UTF-16' />
-          </div>
-          <div className='flex flex-1 justify-end'>
-            <SpeechToTextPlugin />
-            <ShareContentPlugin />
-            <ImportExportPlugin />
-            <MarkdownTogglePlugin
-              shouldPreserveNewLinesInMarkdown={true}
-              transformers={[
-                TABLE,
-                HR,
-                IMAGE,
-                EMOJI,
-                TWEET,
-                CHECK_LIST,
-                ...ELEMENT_TRANSFORMERS,
-                ...MULTILINE_ELEMENT_TRANSFORMERS,
-                ...TEXT_FORMAT_TRANSFORMERS,
-                ...TEXT_MATCH_TRANSFORMERS,
-              ]}
-            />
-            <EditModeTogglePlugin />
-            <>
-              <ClearEditorActionPlugin />
-              <ClearEditorPlugin />
-            </>
-            <TreeViewPlugin />
-          </div>
-        </div>
-      </ActionsPlugin>
     </div>
   )
 }

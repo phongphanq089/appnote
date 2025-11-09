@@ -1,53 +1,36 @@
-import type { SerializedEditorState } from 'lexical'
-
-import { useState } from 'react'
 import { ThemeProvider } from './provider/ThemeProvider'
-import { Editor } from './components/editor/block/editor-x/Editor'
-
-const initialValue = {
-  root: {
-    children: [
-      {
-        children: [
-          {
-            detail: 0,
-            format: 0,
-            mode: 'normal',
-            style: '',
-            text: 'Hello World 🚀',
-            type: 'text',
-            version: 1,
-          },
-        ],
-        direction: 'ltr',
-        format: '',
-        indent: 0,
-        type: 'paragraph',
-        version: 1,
-      },
-    ],
-    direction: 'ltr',
-    format: '',
-    indent: 0,
-    type: 'root',
-    version: 1,
-  },
-} as unknown as SerializedEditorState
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from './components/ui/sidebar'
+import { AppSidebar } from './components/layout/AppSidebar'
+import { Separator } from './components/ui/separator'
+import MainLayout from './components/layout/MainLayout'
+import BreadcrumbLayout from './components/layout/BreadcrumbLayout'
+import { AnimatedThemeToggler } from './components/shared/AnimatedThemeToggler'
 function App() {
-  const [editorState, setEditorState] =
-    useState<SerializedEditorState>(initialValue)
-
-  console.log(editorState, '=====>')
   return (
     <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
-      <div className='flex items-center justify-between min-h-screen'>
-        <div className='max-w-[1200px] w-full mx-auto'>
-          <Editor
-            editorSerializedState={editorState}
-            onSerializedChange={(value) => setEditorState(value)}
-          />
-        </div>
-      </div>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <header className='flex h-16 shrink-0 justify-between items-center gap-2 px-4'>
+            <div className='flex items-center gap-2'>
+              <SidebarTrigger className='-ml-1' />
+              <Separator
+                orientation='vertical'
+                className='mr-2 data-[orientation=vertical]:h-4'
+              />
+              <BreadcrumbLayout />
+            </div>
+            <AnimatedThemeToggler />
+          </header>
+          <div className='flex flex-1 flex-col gap-4 p-4 pt-0'>
+            <MainLayout />
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
     </ThemeProvider>
   )
 }
