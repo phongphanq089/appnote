@@ -32,7 +32,7 @@ const initialValue = {
   },
 } as unknown as SerializedEditorState
 
-const NoteEditor = () => {
+const EditorContent = () => {
   const [editorState, setEditorState] =
     useState<SerializedEditorState>(initialValue)
   return (
@@ -43,4 +43,4 @@ const NoteEditor = () => {
   )
 }
 
-export default NoteEditor
+export default EditorContent
