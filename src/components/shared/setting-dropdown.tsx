@@ -13,6 +13,7 @@ import {
 } from '~/components/ui/dropdown-menu'
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { authQuery } from '~/features/auth/auth.query'
 
 interface Profile {
   name: string
@@ -49,6 +50,8 @@ export default function SettingDropdown({
   className,
   ...props
 }: ProfileDropdownProps) {
+  const { mutate: logout } = authQuery.useLogOut()
+
   const [isOpen, setIsOpen] = React.useState(false)
   const menuItems: MenuItem[] = [
     {
@@ -143,7 +146,7 @@ export default function SettingDropdown({
                         {item.label}
                       </span>
                     </div>
-                    <div className='flex-shrink-0 ml-auto'>
+                    <div className=' ml-auto'>
                       {item.value && (
                         <span
                           className={cn(
@@ -162,11 +165,11 @@ export default function SettingDropdown({
               ))}
             </div>
 
-            <DropdownMenuSeparator className='my-3 bg-gradient-to-r from-transparent via-zinc-200 to-transparent dark:via-zinc-800' />
+            <DropdownMenuSeparator className='my-3 from-transparent via-zinc-200 to-transparent dark:via-zinc-800' />
 
             <DropdownMenuItem asChild>
               <button
-                type='button'
+                onClick={() => logout()}
                 className='w-full flex items-center gap-3 p-3 duration-200 bg-red-500/10 rounded-xl hover:bg-red-500/20 cursor-pointer border border-transparent hover:border-red-500/30 hover:shadow-sm transition-all group'
               >
                 <LogOut className='w-4 h-4 text-red-500 group-hover:text-red-600' />

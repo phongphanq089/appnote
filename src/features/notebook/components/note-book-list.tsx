@@ -1,8 +1,15 @@
 import { Folder } from 'lucide-react'
 
 import { HeaderNodeBookList } from '~/features/notebook/components/header-node-book-list'
+import { useGetNoteBooks } from '../service/use-notes'
 
 const NoteBookList = () => {
+  const { data: notes, isLoading, error } = useGetNoteBooks()
+  console.log(notes, '==========>')
+
+  console.log(error, 'error')
+  if (isLoading) return <div>Đang tải danh sách...</div>
+  if (error) return <div>Lỗi khi tải ghi chú!</div>
   return (
     <div className='space-y-0.5'>
       {notebooks.map((notebook) => (
