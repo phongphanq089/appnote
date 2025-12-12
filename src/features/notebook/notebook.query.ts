@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
-import { notebookApi } from './note.api'
+import { notebookApi } from './notebook.api'
 
 export const useGetNoteBooks = () => {
   return useQuery({
-    queryKey: ['notes'],
-    queryFn: notebookApi.getNotes,
+    queryKey: ['notesBook'],
+    queryFn: notebookApi.getNotebooks,
     staleTime: 1000 * 60 * 5,
   })
 }

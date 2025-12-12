@@ -5,12 +5,41 @@ import {
   Plus,
   Search,
 } from 'lucide-react'
+import { useSearchParams } from 'react-router'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import { useLayout } from '~/provider/layout-provider'
+import { useCreateNote } from '../note.query'
+import { useQueryClient } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
 
 const HeaderNode = () => {
   const { toggleLeftSidebar, isLeftCollapsed } = useLayout()
+
+  const queryClient = useQueryClient()
+
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const getNoteBookId = searchParams.get('notebookId') || ''
+
+  const { mutate: addNewNote, isPending } = useCreateNote()
+
+  const handleAddNote = () => {
+    addNewNote(getNoteBookId, {
+      onSuccess: (newNote) => {
+        const notebookId = newNote.notebookId
+
+        queryClient.invalidateQueries({ queryKey: ['notes', notebookId] })
+
+        setSearchParams({ notebookId: notebookId, noteId: newNote.$id })
+      },
+      onError: (error) => {
+        toast.error(error.message)
+        console.log(error.message, 'error.message ============>')
+      },
+    })
+  }
+
   return (
     <div className='p-3 space-y-3 border-b dark:border-zinc-800 h-auto flex-none'>
       <div className='flex gap-2'>
@@ -29,7 +58,11 @@ const HeaderNode = () => {
           )}
         </Button>
 
-        <Button className='flex-1 bg-blue-600 hover:bg-blue-700 text-white h-8 text-xs font-medium'>
+        <Button
+          className='flex-1 bg-blue-600 hover:bg-blue-700 text-white h-8 text-xs font-medium'
+          onClick={handleAddNote}
+          disabled={isPending}
+        >
           <Plus className='h-3.5 w-3.5 mr-1' /> Note
         </Button>
         <Button

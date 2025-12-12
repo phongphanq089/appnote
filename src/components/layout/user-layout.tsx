@@ -54,7 +54,7 @@ const UserLayout = () => {
               className='bg-accent dark:bg-zinc-800 hover:bg-blue-600 transition-colors w-px'
             />
 
-            {/* === PANEL 2: MIDDLE SIDEBAR (List) === */}
+            {/* === PANEL 2: MIDDLE SIDEBAR NOTE (List) === */}
             <ResizablePanel
               defaultSize={25}
               minSize={20}

@@ -7,7 +7,7 @@ export const APPWRITE_CONFIG = {
   DATABASE_ID:
     import.meta.env.VITE_APPWRITE_DATABASE_ID || '6907206c00260a7ecab1',
   COLLECTION_NAME: {
-    notes: import.meta.env.VITE_APPWRITE_COLLECTION_NOTES,
+    notes: import.meta.env.VITE_APPWRITE_COLLECTION_NOTES || 'notes',
     notebooks:
       import.meta.env.VITE_APPWRITE_COLLECTION_NOTEBOOKS || 'notebooks',
     tags: import.meta.env.VITE_APPWRITE_COLLECTION_TAGS,

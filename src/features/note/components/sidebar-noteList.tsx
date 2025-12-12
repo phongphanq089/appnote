@@ -6,9 +6,21 @@ import { Sheet, SheetContent, SheetTrigger } from '~/components/ui/sheet'
 import { useResponsive } from '~/hooks/use-responsive'
 import HeaderNode from './header-node'
 import { cn } from '~/lib/utils'
+import { useGetNotes } from '../note.query'
+import { useSearchParams } from 'react-router'
 
 const SidebarNoteList = () => {
   const { isMd } = useResponsive()
+
+  const [searchParams] = useSearchParams()
+
+  const activeNotebookId = searchParams.get('notebookId')
+
+  const { data: notes, isLoading } = useGetNotes(activeNotebookId || '')
+
+  console.log(notes, '======= get notes')
+
+  if (isLoading) return <div>Đang tải ghi chú...</div>
 
   return <>{isMd ? <SidebarNoteListDesktop /> : <SidebarNoteListMobile />}</>
 }

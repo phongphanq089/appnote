@@ -1,12 +1,12 @@
 import { Navigate, Outlet } from 'react-router'
 import { useAuthStore } from '~/store/use-auth-store'
-import LoaderPage from '../shared/loader-page'
+import SplashScreen from './splash-screen'
 
 export const PublicRoute = () => {
   const { isAuthenticated, isInitialized } = useAuthStore()
 
   if (!isInitialized) {
-    return <LoaderPage />
+    return <SplashScreen />
   }
 
   if (isAuthenticated) {
