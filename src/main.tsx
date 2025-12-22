@@ -11,11 +11,13 @@ import ReactQueryProvider from './provider/react-query-provider.tsx'
 import { ThemeProvider } from './provider/theme-provider.tsx'
 import LayoutProvider from './provider/layout-provider.tsx'
 import ToasterCustom from './components/shared/toaster-custom.tsx'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <ReactQueryProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
         <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
           <LayoutProvider>
             <ToasterCustom />

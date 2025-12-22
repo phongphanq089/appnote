@@ -10,13 +10,10 @@ import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import { useLayout } from '~/provider/layout-provider'
 import { useCreateNote } from '../note.query'
-import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 
 const HeaderNode = () => {
   const { toggleLeftSidebar, isLeftCollapsed } = useLayout()
-
-  const queryClient = useQueryClient()
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -25,13 +22,17 @@ const HeaderNode = () => {
   const { mutate: addNewNote, isPending } = useCreateNote()
 
   const handleAddNote = () => {
+    if (!getNoteBookId) {
+      toast.error('Please slelect Notebook before creating a Note!')
+      return
+    }
     addNewNote(getNoteBookId, {
       onSuccess: (newNote) => {
-        const notebookId = newNote.notebookId
-
-        queryClient.invalidateQueries({ queryKey: ['notes', notebookId] })
-
-        setSearchParams({ notebookId: notebookId, noteId: newNote.$id })
+        setSearchParams((prev) => {
+          prev.set('notebookId', newNote.notebookId)
+          prev.set('noteId', newNote.$id)
+          return prev
+        })
       },
       onError: (error) => {
         toast.error(error.message)

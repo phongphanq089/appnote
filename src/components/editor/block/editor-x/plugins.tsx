@@ -103,9 +103,10 @@ import { ClearEditorActionPlugin } from '../../plugins/actions/clear-editor-plug
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin'
 import { TreeViewPlugin } from '../../plugins/actions/tree-view-plugin'
 import { ScrollArea, ScrollBar } from '~/components/ui/scroll-area'
+import { MAX_NOTE_SIZE } from '~/lib/utils'
 
 const placeholder = 'Press / for commands...'
-const maxLength = 50000
+const maxLength = MAX_NOTE_SIZE
 
 export function Plugins() {
   const [floatingAnchorElem, setFloatingAnchorElem] =
@@ -122,8 +123,8 @@ export function Plugins() {
   }
 
   return (
-    <div className='relative  flex flex-col h-full w-full'>
-      <div className='flex-none z-10 bg-background'>
+    <div className='relative flex flex-col h-full w-full '>
+      <div className='flex-none z-10 bg-background '>
         <ToolbarPlugin>
           {({ blockType }) => (
             <ScrollArea className='w-full mx-auto flex items-center border-b p-1 bg-muted'>
@@ -176,17 +177,17 @@ export function Plugins() {
         </ToolbarPlugin>
       </div>
 
-      <div className='relative flex-1 min-h-0'>
+      <div className='relative flex-1 min-h-0 '>
         <AutoFocusPlugin />
         <RichTextPlugin
           contentEditable={
             <ScrollArea className='h-full w-full' type='always'>
-              <div className='h-full min-h-full' ref={onRef}>
+              <div className='h-full min-h-full ' ref={onRef}>
                 <ContentEditable
                   placeholder={placeholder}
                   // THAY ĐỔI 4: Bỏ overflow-auto ở đây vì ScrollArea đã lo rồi.
                   // Dùng min-h-full để editor luôn full chiều cao dù không có chữ
-                  className='ContentEditable__root relative block min-h-full px-8 py-4 focus:outline-none'
+                  className='ContentEditable__root relative block min-h-full px-8 py-4 pb-100 focus:outline-none'
                 />
               </div>
             </ScrollArea>
