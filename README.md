@@ -1,75 +1,99 @@
-# React + TypeScript + Vite
+# 📝 Notes App – React + Appwrite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern **note-taking web application** built with **React, TypeScript, Vite**, and **Appwrite**.
+The project focuses on **rich text editing**, **smooth UX**, and **scalable architecture**, inspired by apps like **Notion** and **Apple Notes**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Key Features
 
-## React Compiler
+- 📒 Notebook & Note management
+- ✍️ Powerful **Rich Text Editor** (Lexical-based)
+- ⚡ Per-item loading (no global UI flicker)
+- 🗑 Smart delete behavior (auto-select nearest note)
+- 🔗 Active note synced via URL (`searchParams`)
+- 📱 Fully responsive (Mobile / Desktop)
+- 🌙 Dark mode support
+- 🔐 Authentication & protected routes
+- ☁️ Appwrite backend (Database, Auth, Storage)
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+---
 
-Note: This will impact Vite dev & build performances.
+## 🧱 Tech Stack
 
-## Expanding the ESLint configuration
+### Frontend
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 18**
+- **TypeScript**
+- **Vite**
+- **React Router**
+- **TanStack React Query**
+- **TailwindCSS**
+- **ShadCN UI**
+- **Lucide Icons**
+- **Lexical Editor**
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Backend (BaaS)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Appwrite**
+  - Authentication
+  - Database (Notes, Notebooks, Tags)
+  - Storage (Images)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📁 Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+# Appwrite
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+VITE_APPWRITE_ENDPOINT=https://sgp.cloud.appwrite.io/v1
+VITE_APPWRITE_PROJECT_ID=your_project_id
+VITE_APPWRITE_DATABASE_ID=your_database_id
+
+# Collections
+
+VITE_APPWRITE_COLLECTION_NOTES=notes
+VITE_APPWRITE_COLLECTION_NOTEBOOKS=notebooks
+VITE_APPWRITE_COLLECTION_TAGS=tags
+
+# Storage
+
+VITE_APPWRITE_BUCKET_IMAGES=images
+
+```txt
+src/
+├─ assets/                 # Static assets
+│
+├─ components/
+│  ├─ core/                # Route guards, splash screen
+│  ├─ editor/              # Rich text editor (Lexical)
+│  ├─ layout/              # App layouts
+│  ├─ shared/              # Shared UI (404, loader, toaster…)
+│  └─ ui/                  # ShadCN UI components
+│
+├─ features/
+│  ├─ auth/                # Authentication feature
+│  ├─ editor/              # Editor header & content
+│  ├─ note/                # Notes feature (list, item, sidebar)
+│  ├─ notebook/            # Notebooks feature
+│  └─ tag/                 # Tags feature
+│
+├─ hooks/                  # Custom hooks (responsive, mobile)
+│
+├─ lib/
+│  ├─ appwrite.ts          # Appwrite client
+│  ├─ appwrite-config.ts   # Appwrite env config
+│  └─ utils.ts             # Utilities
+│
+├─ provider/               # App providers (Theme, React Query)
+│
+├─ store/                  # Global state (Auth store)
+│
+├─ App.tsx
+├─ main.tsx
+└─ index.css
+
+
+
+
 ```
