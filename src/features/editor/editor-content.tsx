@@ -145,7 +145,7 @@ const EditorContent = () => {
   /** ---------- UI ---------- */
   if (!noteId) {
     return (
-      <div className='p-10 text-center text-gray-400'>
+      <div className='p-10 text-center text-gray-400 '>
         Select a note to view
       </div>
     )
@@ -162,7 +162,7 @@ const EditorContent = () => {
   }
 
   return (
-    <div className='relative h-full min-h-0'>
+    <div className='relative h-full min-h-0 '>
       {/* Optional: Indicator nhỏ báo đang save */}
       {updateNote.isPending && (
         <div className='absolute top-2 right-2 text-xs text-green-400'>

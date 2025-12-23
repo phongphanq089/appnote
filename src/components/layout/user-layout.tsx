@@ -58,7 +58,7 @@ const UserLayout = () => {
             <ResizablePanel
               defaultSize={25}
               minSize={20}
-              maxSize={40}
+              maxSize={isLeftCollapsed ? 20 : 40}
               className='bg-accent dark:bg-[#202022] border-r dark:border-zinc-800 flex flex-col min-w-[250px]'
             >
               <HeaderNode />
@@ -74,7 +74,7 @@ const UserLayout = () => {
             <ResizablePanel
               defaultSize={55}
               minSize={30}
-              className='bg-[#1e1e1e] flex flex-col min-w-[400px]'
+              className='bg-background dark:bg-[#1e1e1e] flex flex-col min-w-[400px]'
             >
               <EditorHeader />
               <EditorContent />

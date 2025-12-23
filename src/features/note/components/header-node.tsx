@@ -2,7 +2,7 @@ import {
   CheckSquare,
   PanelLeftClose,
   PanelLeftOpen,
-  Plus,
+  PlusCircleIcon,
   Search,
 } from 'lucide-react'
 import { useSearchParams } from 'react-router'
@@ -60,11 +60,11 @@ const HeaderNode = () => {
         </Button>
 
         <Button
-          className='flex-1 bg-blue-600 hover:bg-blue-700 text-white h-8 text-xs font-medium'
+          className='flex-1 bg-primary text-white h-8 text-xs font-medium'
           onClick={handleAddNote}
           disabled={isPending}
         >
-          <Plus className='h-3.5 w-3.5 mr-1' /> Note
+          <PlusCircleIcon className='h-3.5 w-3.5 mr-1' /> NEW NOTE
         </Button>
         <Button
           variant='secondary'

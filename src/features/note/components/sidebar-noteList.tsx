@@ -1,21 +1,18 @@
-import { ArrowRight, Trash2 } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Button } from '~/components/ui/button'
 import { DialogTitle } from '~/components/ui/dialog'
 import { ScrollArea } from '~/components/ui/scroll-area'
 import { Sheet, SheetContent, SheetTrigger } from '~/components/ui/sheet'
 import { useResponsive } from '~/hooks/use-responsive'
 import HeaderNode from './header-node'
-import { cn } from '~/lib/utils'
 import { useDeleteNote, useGetNotes } from '../note.query'
 import { useSearchParams } from 'react-router'
-import {
-  EmptyData,
-  ErrorData,
-  LoadingSkeleton,
-} from '~/components/shared/status-data'
-import type { Models } from 'appwrite'
-import { useEffect } from 'react'
+import { ErrorData, LoadingSkeleton } from '~/components/shared/status-data'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import type { NoteListProps } from '../type'
+import { NoteList } from './note-list'
+import type { Models } from 'appwrite'
 
 const SidebarNoteList = () => {
   const { isMd } = useResponsive()
@@ -25,6 +22,8 @@ const SidebarNoteList = () => {
   const activeNotebookId = searchParams.get('notebookId')
 
   const activeNoteId = searchParams.get('noteId')
+
+  const [deletingNoteId, setDeletingNoteId] = useState<string | null>(null)
 
   const {
     data: notes,
@@ -55,10 +54,49 @@ const SidebarNoteList = () => {
     })
   }
 
+  const getNextActiveNoteId = (
+    notes: Models.DefaultDocument[],
+    deletedId: string
+  ) => {
+    const index = notes.findIndex((n) => n.$id === deletedId)
+    if (index === -1) return null
+
+    // ưu tiên note phía trước
+    if (index > 0) return notes[index - 1].$id
+
+    // nếu xoá note đầu tiên
+    if (index === 0 && notes.length > 1) return notes[1].$id
+
+    return null
+  }
   const handleDeleNote = (noteId: string) => {
+    if (!notes) return
+    const isDeletingActive = activeNoteId === noteId
+
+    const nextActiveId = isDeletingActive
+      ? getNextActiveNoteId(notes, noteId)
+      : null
+    setDeletingNoteId(noteId)
     deleteNote.mutate(noteId, {
       onSuccess: () => {
-        toast.success(`Delenote success`)
+        toast.success(`Delete success`)
+
+        if (isDeletingActive) {
+          if (nextActiveId) {
+            setSearchParams((prev) => {
+              prev.set('noteId', nextActiveId)
+              return prev
+            })
+          } else {
+            setSearchParams((prev) => {
+              prev.delete('noteId')
+              return prev
+            })
+          }
+        }
+      },
+      onSettled: () => {
+        setDeletingNoteId(null)
       },
     })
   }
@@ -74,6 +112,7 @@ const SidebarNoteList = () => {
           activeNoteId={activeNoteId}
           onSelect={handleSelectNote}
           onDelete={handleDeleNote}
+          deletingNoteId={deletingNoteId}
         />
       ) : (
         <SidebarNoteListMobile
@@ -81,6 +120,7 @@ const SidebarNoteList = () => {
           activeNoteId={activeNoteId}
           onSelect={handleSelectNote}
           onDelete={handleDeleNote}
+          deletingNoteId={deletingNoteId}
         />
       )}
     </>
@@ -89,131 +129,43 @@ const SidebarNoteList = () => {
 
 export default SidebarNoteList
 
-const SidebarNoteListMobile = ({
-  notes,
-  activeNoteId,
-  onSelect,
-  onDelete,
-}: {
-  notes: Models.DefaultDocument[] | undefined
-  activeNoteId: string | null
-  onSelect: (id: string) => void
-  onDelete: (id: string) => void
-}) => {
+const SidebarNoteListDesktop = (props: NoteListProps) => {
+  return (
+    <div className='flex-1 min-h-0 overflow-hidden'>
+      <ScrollArea className='h-full'>
+        <NoteList
+          {...props}
+          itemClassName='mb-2 px-2'
+          iconClassName='absolute right-2 top-1/2 -translate-y-1/2'
+        />
+      </ScrollArea>
+    </div>
+  )
+}
+
+const SidebarNoteListMobile = (props: NoteListProps) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button
-          variant='ghost'
-          size='sm'
-          className='dark:text-zinc-400 text-xs'
-        >
+        <Button variant='ghost' size='sm' className='text-xs'>
           <ArrowRight className='h-4 w-4 mr-1' />
           List
         </Button>
       </SheetTrigger>
+
       <SheetContent side='right' className='p-0 w-[280px] dark:bg-[#18181b]'>
-        <DialogTitle>
-          <div className='mt-10'>
-            <HeaderNode />
-          </div>
+        <DialogTitle className='mt-10'>
+          <HeaderNode />
         </DialogTitle>
 
-        <ScrollArea className='h-full flex-1 min-h-0'>
-          {!notes || notes.length === 0 ? (
-            <EmptyData />
-          ) : (
-            <>
-              {notes.map((note) => {
-                const isActive = activeNoteId === note.$id
-                return (
-                  <div
-                    key={note.$id}
-                    onClick={() => onSelect(note.$id)}
-                    className={cn(
-                      'p-4 border-b dark:border-zinc-800 text-gray-700 dark:text-zinc-300 cursor-pointer',
-                      isActive
-                        ? 'bg-blue-200 dark:bg-[#0f2e4a] border-l-4 border-l-blue-500'
-                        : 'border-l-4 border-l-transparent'
-                    )}
-                  >
-                    <div className='flex items-center justify-between relative w-full'>
-                      <h4
-                        className={`text-sm font-semibold mb-1 line-clamp-1 ${
-                          isActive ? 'dark:text-white' : 'dark:text-zinc-300'
-                        }`}
-                      >
-                        {note.title ? note.title : 'Untitled Note'}
-                      </h4>
-                      <span
-                        className='cursor-pointer absolute top-1/2  -translate-y-1/2 right-1 text-red-700'
-                        onClick={() => onDelete(note.$id)}
-                      >
-                        <Trash2 size={19} />
-                      </span>
-                    </div>
-                  </div>
-                )
-              })}
-            </>
-          )}
+        <ScrollArea className='h-full'>
+          <NoteList
+            {...props}
+            itemClassName='mb-2 px-2'
+            iconClassName='absolute right-1 top-1/2 -translate-y-1/2'
+          />
         </ScrollArea>
       </SheetContent>
     </Sheet>
-  )
-}
-
-const SidebarNoteListDesktop = ({
-  notes,
-  activeNoteId,
-  onSelect,
-  onDelete,
-}: {
-  notes: Models.DefaultDocument[] | undefined
-  activeNoteId: string | null
-  onSelect: (id: string) => void
-  onDelete: (id: string) => void
-}) => {
-  return (
-    <div className='flex-1 min-h-0 overflow-hidden'>
-      <ScrollArea className='h-full w-full'>
-        {!notes || notes.length === 0 ? (
-          <EmptyData />
-        ) : (
-          <>
-            {notes?.map((note) => {
-              const isActive = activeNoteId === note.$id
-              return (
-                <div
-                  key={note.$id}
-                  onClick={() => onSelect(note.$id)}
-                  className={`p-3 border-b dark:border-zinc-800 cursor-pointer group hover:bg-zinc-800/10 transition-colors ${
-                    isActive
-                      ? 'bg-blue-200 dark:bg-[#0f2e4a] border-l-4 border-l-blue-500'
-                      : 'border-l-4 border-l-transparent'
-                  }`}
-                >
-                  <div className='flex items-center justify-between relative w-full'>
-                    <h4
-                      className={`text-sm font-semibold mb-1 line-clamp-1 ${
-                        isActive ? 'dark:text-white' : 'dark:text-zinc-300'
-                      }`}
-                    >
-                      {note.title ? note.title : 'Untitled Note'}
-                    </h4>
-                    <span
-                      className='cursor-pointer absolute top-1/2 px-3 -translate-y-1/2 right-2 text-red-700'
-                      onClick={() => onDelete(note.$id)}
-                    >
-                      <Trash2 size={19} />
-                    </span>
-                  </div>
-                </div>
-              )
-            })}
-          </>
-        )}
-      </ScrollArea>
-    </div>
   )
 }

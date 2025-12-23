@@ -1,19 +1,18 @@
 import { Edit } from 'lucide-react'
 import { useSearchParams } from 'react-router'
 import { Button } from '~/components/ui/button'
+import ModalAction from './modal-action'
 
-export function HeaderNodeBookList({
+export function NodeBookItem({
   icon,
   label,
   id,
-  onDelete,
 }: {
   icon: React.ReactNode
   label: string
   count?: number
   active?: boolean
   id: string
-  onDelete: (id: string) => void
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -25,16 +24,16 @@ export function HeaderNodeBookList({
 
   return (
     <div
-      className={`w-full justify-start h-8 px-2 text-sm font-normal relative ${
+      className={`w-full justify-start px-2 text-sm font-normal relative rounded-sm ${
         activeNotebookId === id
-          ? 'bg-blue-600/20 text-blue-400 font-bold'
+          ? 'bg-primary/20 text-priamry font-bold'
           : 'dark:text-zinc-400 hover:dark:text-zinc-100 hover:dark:bg-zinc-800 hover:bg-gray-200'
       }`}
     >
       <Button
         variant='ghost'
         onClick={() => handleSelectNotebook(id)}
-        className='flex items-center gap-2'
+        className='flex justify-start gap-2 w-full hover:bg-transparent'
       >
         <span className='mr-2 opacity-100'>{icon}</span>
         <div className='max-w-[95px] w-full'>
@@ -45,9 +44,18 @@ export function HeaderNodeBookList({
       </Button>
 
       <div className='flex items-center gap-2 absolute top-1/2 -translate-y-1/2 right-0 min-w-[35px] z-5'>
-        <span className='cursor-pointer' onClick={() => onDelete(id)}>
-          <Edit className='text-red-500' size={16} />
-        </span>
+        <ModalAction
+          mode='edit'
+          initialData={{
+            id: id,
+            title: label,
+          }}
+          trigger={
+            <span className='cursor-pointer'>
+              <Edit className='text-red-500' size={16} />
+            </span>
+          }
+        />
       </div>
     </div>
   )

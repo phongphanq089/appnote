@@ -1,15 +1,22 @@
-import { Query } from 'appwrite'
+import { ID, Query } from 'appwrite'
 import { databases } from '~/lib/appwrite'
 import { APPWRITE_CONFIG } from '~/lib/appwrite-config'
 
 const { DATABASE_ID, COLLECTION_NAME } = APPWRITE_CONFIG
 
+export interface CreateNotebookPayload {
+  title: string
+  userId: string
+  email: string
+}
+
 export const notebookApi = {
-  getNotebooks: async () => {
+  getNotebooks: async (userId: string) => {
+    if (!userId) return []
     const response = await databases.listDocuments(
       DATABASE_ID,
       COLLECTION_NAME.notebooks,
-      [Query.orderDesc('$createdAt')]
+      [Query.equal('userId', userId), Query.orderDesc('createdDate')]
     )
     return response.documents
   },
@@ -42,5 +49,32 @@ export const notebookApi = {
       console.error('Error deleting notebook and its contents:', error)
       throw error
     }
+  },
+  createNoteBook: async ({ title, userId, email }: CreateNotebookPayload) => {
+    return await databases.createDocument(
+      DATABASE_ID,
+      COLLECTION_NAME.notebooks,
+      ID.unique(),
+      {
+        title,
+        userId,
+        createdBy: email,
+        createdDate: new Date().toISOString(),
+        isPublic: false,
+        lastModified: null,
+      }
+    )
+  },
+
+  updateNoteBook: async (notebookId: string, title: string) => {
+    return await databases.updateDocument(
+      DATABASE_ID,
+      COLLECTION_NAME.notebooks,
+      notebookId,
+      {
+        title,
+        lastModified: new Date().toISOString(),
+      }
+    )
   },
 }

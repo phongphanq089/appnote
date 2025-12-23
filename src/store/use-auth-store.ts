@@ -1,7 +1,7 @@
 import type { Models } from 'appwrite'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { authService } from '~/features/auth/auth.service'
+import { authService } from '~/features/auth/auth.api'
 
 interface AuthState {
   user: Models.User<Models.Preferences> | null

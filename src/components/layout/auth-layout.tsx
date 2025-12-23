@@ -24,7 +24,7 @@ const AuthLayout = ({ children, title, subtitle }: AuthLayoutProps) => {
       {/* Card */}
       <div
         className='
-          w-full max-w-[500px] space-y-6 rounded-lg border
+          w-full max-w-[500px] space-y-6 rounded-2xl border
           bg-background p-8 shadow-lg relative z-10
 
           dark:bg-slate-900 dark:border-slate-700 dark:shadow-xl

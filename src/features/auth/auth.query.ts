@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { LoginFormValues } from './auth.schema'
-import { authService } from './auth.service'
+import { authService } from './auth.api'
 import { useAuthStore } from '~/store/use-auth-store'
 
 export const authQuery = {

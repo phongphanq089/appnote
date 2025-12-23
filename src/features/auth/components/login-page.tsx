@@ -1,11 +1,11 @@
 import AuthLayout from '~/components/layout/auth-layout'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { LoginSchema, type LoginFormValues } from './auth.schema'
+import { LoginSchema, type LoginFormValues } from '../auth.schema'
 import { FormInput } from '~/components/shared/form-input'
 import { Button } from '~/components/ui/button'
 import { Link, useNavigate } from 'react-router'
-import { authQuery } from './auth.query'
+import { authQuery } from '../auth.query'
 import { Spinner } from '~/components/ui/spinner'
 import { useAuthStore } from '~/store/use-auth-store'
 
@@ -72,7 +72,7 @@ const LoginPage = () => {
         Don't have an account?
         <Link
           to='/register'
-          className='font-medium text-primary hover:underline'
+          className='font-medium text-primary hover:underline ml-1'
         >
           Register now
         </Link>
