@@ -8,6 +8,7 @@ import { authQuery } from '~/features/auth/auth.query'
 
 const AppSidebarContent = () => {
   const { user } = useAuthStore()
+  console.log(user, 'ksadhlkasjd')
   const { mutate: logout } = authQuery.useLogOut()
   return (
     <div className='flex flex-col h-full bg-gray-100 text-black font-bold dark:text-zinc-400 dark:bg-[#18181b]'>
@@ -48,7 +49,7 @@ const AppSidebarContent = () => {
                 Logout
               </h4>
               <p className='text-xs font-light text-gray-700 dark:text-gray-300'>
-                phongphanq089@gmail.com
+                {user?.email}
               </p>
             </div>
             <LogOut />
