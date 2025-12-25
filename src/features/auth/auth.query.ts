@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import type { LoginFormValues } from './auth.schema'
+import type { LoginFormValues, RegisterFormValues } from './auth.schema'
 import { authService } from './auth.api'
 import { useAuthStore } from '~/store/use-auth-store'
 
@@ -22,6 +22,12 @@ export const authQuery = {
         setUser(null)
         queryClient.clear()
       },
+    })
+  },
+  useRegister: () => {
+    return useMutation({
+      mutationFn: (payload: RegisterFormValues) =>
+        authService.register(payload),
     })
   },
 }

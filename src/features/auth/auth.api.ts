@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { account } from '~/lib/appwrite'
+import type { RegisterFormValues } from './auth.schema'
+import { ID } from 'appwrite'
 
-export const authService = {
+export const authService: any = {
   login: async (email: string, password: string) => {
     return await account.createEmailPasswordSession(email, password)
   },
@@ -15,5 +17,8 @@ export const authService = {
       console.log(err, '==============>')
       return null
     }
+  },
+  register: async ({ email, password, name }: RegisterFormValues) => {
+    return await account.create(ID.unique(), email, password, name)
   },
 }

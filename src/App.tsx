@@ -6,6 +6,8 @@ import LoginPage from './features/auth/components/login-page'
 import { useAuthStore } from './store/use-auth-store'
 import { useEffect } from 'react'
 import { NotFound } from './components/shared/404'
+import RegisterPage from './features/auth/components/register-page'
+
 function App() {
   const initAuth = useAuthStore((state) => state.init)
 
@@ -16,6 +18,7 @@ function App() {
     <Routes>
       <Route element={<PublicRoute />}>
         <Route path='/login' element={<LoginPage />} />
+        <Route path='/register' element={<RegisterPage />} />
       </Route>
       <Route element={<ProtectedRoute />}>
         <Route path='/' element={<UserLayout />} />
