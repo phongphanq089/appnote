@@ -5,6 +5,7 @@ import './editor-theme.css'
 export const editorTheme: EditorThemeClasses = {
   ltr: 'text-left',
   rtl: 'text-right',
+
   heading: {
     h1: 'scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl',
     h2: 'scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0',
@@ -46,7 +47,7 @@ export const editorTheme: EditorThemeClasses = {
   hashtag: 'text-blue-600 bg-blue-100 rounded-md px-1',
   text: {
     bold: 'font-bold',
-    code: 'bg-gray-100 p-1 rounded-md',
+    code: 'bg-gray-400 p-1 rounded-md',
     italic: 'italic',
     strikethrough: 'line-through',
     subscript: 'sub',
