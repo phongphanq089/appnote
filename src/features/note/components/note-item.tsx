@@ -30,7 +30,7 @@ export const NoteItem = ({
       <div className='flex items-center justify-between relative w-full'>
         <h4
           className={cn(
-            'text-sm font-semibold mb-1 line-clamp-1',
+            'text-sm font-semibold mb-1 line-clamp-1 pr-4',
             isActive ? 'dark:text-white' : 'dark:text-zinc-300'
           )}
         >
