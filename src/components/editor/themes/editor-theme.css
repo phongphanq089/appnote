@@ -66,18 +66,18 @@ img {
   border-collapse: collapse;
   margin: 20px 0;
   font-size: 0.95em;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-muted);
 }
 .EditorTheme__table th,
 .EditorTheme__table td {
   padding: 12px 15px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-muted);
 }
 .EditorTheme__table tr:nth-of-type(even) {
-  background-color: #f8fafc;
+  background-color: var(--color-background);
 }
 .EditorTheme__table tr:hover {
-  background-color: #f1f5f9;
+  background-color: var(--color-background);
 }
 
 /* --- COLLAPSIBLE (Chi tiết) --- */
@@ -90,7 +90,7 @@ img {
 }
 .Collapsible__title {
   padding: 10px 15px;
-  background-color: #f9fafb;
+  background-color: var(--color-muted);
   cursor: pointer;
   font-weight: 600;
   user-select: none;
@@ -103,20 +103,5 @@ img {
 }
 .Collapsible__content {
   padding: 15px;
-  border-top: 1px solid #e5e7eb;
-}
-
-/* In ấn đẹp hơn */
-@media print {
-  body {
-    background: white;
-    padding: 0;
-  }
-  .document-container {
-    box-shadow: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    max-width: 100%;
-  }
+  border-top: 1px solid var(--color-background);
 }
