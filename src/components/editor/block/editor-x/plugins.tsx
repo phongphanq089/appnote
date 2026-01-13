@@ -104,6 +104,7 @@ import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin'
 import { TreeViewPlugin } from '../../plugins/actions/tree-view-plugin'
 import { ScrollArea, ScrollBar } from '~/components/ui/scroll-area'
 import { MAX_NOTE_SIZE } from '~/lib/utils'
+import { DownloadHtmlPlugin } from '../../plugins/download-html-plugin'
 
 const placeholder = 'Press / for commands...'
 const maxLength = MAX_NOTE_SIZE
@@ -292,6 +293,7 @@ export function Plugins() {
               <SpeechToTextPlugin />
               <ShareContentPlugin />
               <ImportExportPlugin />
+              <DownloadHtmlPlugin />
               <MarkdownTogglePlugin
                 shouldPreserveNewLinesInMarkdown={true}
                 transformers={[
