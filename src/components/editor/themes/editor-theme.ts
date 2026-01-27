@@ -47,7 +47,7 @@ export const editorTheme: EditorThemeClasses = {
   hashtag: 'text-blue-600 bg-blue-100 rounded-md px-1',
   text: {
     bold: 'font-bold',
-    code: 'bg-gray-400 p-1 rounded-md',
+    code: 'bg-gradient-to-r from-purple-700 via-fuchsia-600 to-red-800 py-1 px-3 rounded-md text-white font-bold',
     italic: 'italic',
     strikethrough: 'line-through',
     subscript: 'sub',

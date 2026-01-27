@@ -24,7 +24,7 @@ export function NodeBookItem({
 
   return (
     <div
-      className={`w-full justify-start px-2 text-sm font-normal relative rounded-sm ${
+      className={`w-full justify-start px-2 py-2 text-sm font-normal relative rounded-sm ${
         activeNotebookId === id
           ? 'bg-primary/20 text-priamry font-bold'
           : 'dark:text-zinc-400 hover:dark:text-zinc-100 hover:dark:bg-zinc-800 hover:bg-gray-200'
@@ -33,11 +33,11 @@ export function NodeBookItem({
       <Button
         variant='ghost'
         onClick={() => handleSelectNotebook(id)}
-        className='flex justify-start gap-2 w-full hover:bg-transparent'
+        className='flex justify-start gap-2 w-full pr-10 hover:bg-transparent'
       >
         <span className='mr-2 opacity-100'>{icon}</span>
-        <div className='max-w-[95px] w-full'>
-          <span className='flex-1 text-left truncate line-clamp-1'>
+        <div className='w-full '>
+          <span className='flex-1 block text-left whitespace-normal leading-snug max-w-[80%] overflow-hidden text-ellipsis'>
             {label}
           </span>
         </div>

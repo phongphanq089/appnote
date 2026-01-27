@@ -188,7 +188,7 @@ export function Plugins() {
                   placeholder={placeholder}
                   // THAY ĐỔI 4: Bỏ overflow-auto ở đây vì ScrollArea đã lo rồi.
                   // Dùng min-h-full để editor luôn full chiều cao dù không có chữ
-                  className='ContentEditable__root relative block min-h-full px-8 py-4 pb-100 focus:outline-none'
+                  className='ContentEditable__root relative block min-h-full px-3 sm:px-8 py-4 pb-100 focus:outline-none'
                 />
               </div>
             </ScrollArea>
