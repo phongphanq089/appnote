@@ -4,9 +4,9 @@ import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import path from 'path'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    // use turn when you want to use react compiler auto compile your code ( not use useCallback, useMemo, ... )
     // react({
     //   babel: {
     //     plugins: [['babel-plugin-react-compiler']],
@@ -34,7 +34,7 @@ export default defineConfig({
             type: 'image/png',
           },
         ],
-        // Dòng quan trọng để nó chạy như App riêng biệt
+        // important for PWA go to app mode
         display: 'standalone',
         start_url: '/',
         background_color: '#ffffff',
