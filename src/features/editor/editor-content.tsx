@@ -100,7 +100,7 @@ const EditorContent = () => {
     if (currentSize > MAX_NOTE_SIZE) {
       console.error(`Note size exceeded: ${currentSize} / ${MAX_NOTE_SIZE}`)
       toast.error(
-        'The content is too long (15MB limit). Please crop or delete the images.'
+        'The content is too long (15MB limit). Please crop or delete the images.',
       )
       return
     }
@@ -142,6 +142,27 @@ const EditorContent = () => {
     }
   }, [editorState, noteId]) // Bỏ note ra khỏi dependency này nếu có
 
+  const handleManualSave = async () => {
+    if (!noteId) return
+    const currentString = JSON.stringify(editorState)
+    lastSavedRef.current = currentString
+
+    // Clear debounce timer if a manual save is triggered
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current)
+
+    toast.promise(
+      updateNote.mutateAsync({
+        noteId,
+        payload: { content: currentString },
+      }),
+      {
+        pending: 'Saving note...',
+        success: 'Note saved successfully!',
+        error: 'Failed to save note',
+      },
+    )
+  }
+
   /** ---------- UI ---------- */
   if (!noteId) {
     return (
@@ -152,7 +173,7 @@ const EditorContent = () => {
   }
 
   // Logic hiển thị Skeleton: Chỉ khi đổi note mới hoặc chưa ready
-  if ((isLoading && !currentLoadedNoteIdRef.current) || !isReady) {
+  if (noteId !== currentLoadedNoteIdRef.current || isLoading || !isReady) {
     return (
       <div className='p-4 space-y-4'>
         <Skeleton className='h-10 w-3/4' />
@@ -174,6 +195,7 @@ const EditorContent = () => {
         key={noteId} // Reset editor instance khi đổi note (Good practice)
         editorSerializedState={editorState}
         onSerializedChange={setEditorState}
+        onSave={handleManualSave}
       />
     </div>
   )

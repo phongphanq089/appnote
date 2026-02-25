@@ -1,10 +1,4 @@
-import {
-  CheckSquare,
-  PanelLeftClose,
-  PanelLeftOpen,
-  PlusCircleIcon,
-  Search,
-} from 'lucide-react'
+import { Menu, PanelLeftClose, PanelLeftOpen, Search } from 'lucide-react'
 import { useSearchParams } from 'react-router'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
@@ -42,42 +36,35 @@ const HeaderNode = () => {
   }
 
   return (
-    <div className='p-3 space-y-3 border-b dark:border-zinc-800 h-auto flex-none'>
-      <div className='flex gap-2'>
-        {/* NÚT TOGGLE SIDEBAR TRÁI */}
+    <div className='p-4 space-y-4 border-b border-border h-auto flex-none bg-background'>
+      <div className='flex gap-2 items-center'>
         <Button
           variant='ghost'
           size='icon'
           onClick={toggleLeftSidebar}
-          className='h-8 w-8 text-blue-500 dark:text-zinc-400 shrink-0'
+          className='h-10 w-10 text-muted-foreground hover:text-primary shrink-0'
           title={isLeftCollapsed ? 'Open Sidebar' : 'Close Sidebar'}
         >
           {isLeftCollapsed ? (
-            <PanelLeftOpen className='h-4 w-4' />
+            <PanelLeftOpen className='h-5 w-5' />
           ) : (
-            <PanelLeftClose className='h-4 w-4' />
+            <PanelLeftClose className='h-5 w-5' />
           )}
         </Button>
 
         <Button
-          className='flex-1 bg-primary text-white h-8 text-xs font-medium'
+          className='flex-1 bg-primary hover:bg-primary/90 text-primary-foreground h-10 text-xs font-bold tracking-widest uppercase rounded-sm border-none shadow-sm'
           onClick={handleAddNote}
           disabled={isPending}
         >
-          <PlusCircleIcon className='h-3.5 w-3.5 mr-1' /> NEW NOTE
-        </Button>
-        <Button
-          variant='secondary'
-          className='bg-zinc-700 hover:bg-zinc-600 text-zinc-200 h-8 text-xs border border-zinc-600 px-2'
-        >
-          <CheckSquare className='h-3.5 w-3.5' />
+          <Menu className='h-4 w-4 mr-2' /> NEW ENTRY
         </Button>
       </div>
       <div className='relative'>
-        <Search className='absolute left-2 top-2 h-4 w-4 text-zinc-500' />
+        <Search className='absolute left-3 top-2.5 h-4 w-4 text-muted-foreground' />
         <Input
-          placeholder='Search...'
-          className='pl-8 dark:bg-zinc-900 dark:border-zinc-700 text-zinc-300 h-8 text-sm focus-visible:dark:ring-zinc-600'
+          placeholder='grep search...'
+          className='pl-9 bg-background border-border text-foreground h-9 font-mono text-xs focus-visible:ring-primary rounded-sm'
         />
       </div>
     </div>

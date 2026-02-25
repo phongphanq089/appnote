@@ -1,11 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { MoreHorizontal } from 'lucide-react'
 import { AnimatedThemeToggler } from '~/components/shared/animated-theme-toggler'
-import { Button } from '~/components/ui/button'
 import { useGetNoteDetail, useUpdateNote } from '../note/note.query'
 import { useSearchParams } from 'react-router'
 import { useEffect, useState } from 'react'
 import { Input } from '~/components/ui/input'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '~/components/ui/tooltip'
 
 const EditorHeader = () => {
   const [searchParams] = useSearchParams()
@@ -37,27 +41,39 @@ const EditorHeader = () => {
   }, [titleInput, noteDetail, noteId])
 
   return (
-    <header className='h-12 flex items-center justify-between px-4 border-b dark:border-zinc-800 bg-accent dark:bg-[#1e1e1e] flex-none'>
+    <header className='h-14 flex items-center justify-between px-6 border-b border-border bg-background flex-none'>
       <div className='flex items-center gap-2 overflow-hidden w-full'>
         {isLoading ? (
           <div className='h-5 w-1/3 bg-zinc-200 dark:bg-zinc-700 animate-pulse rounded' />
         ) : (
-          <Input
-            className='text-lg  font-semibold text-zinc-700 dark:text-zinc-200 border-none px-0 h-9 focus-visible:ring-0 bg-transparent! placeholder:text-zinc-400'
-            placeholder='Untitled Note'
-            value={titleInput}
-            onChange={(e) => setTitleInput(e.target.value)}
-          />
+          <TooltipProvider delayDuration={300}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className='flex items-center w-full max-w-[50%] md:max-w-[70%]'>
+                  <Input
+                    className='text-xs md:text-sm font-bold text-primary tracking-widest uppercase border-none px-0 h-9 focus-visible:ring-0 bg-transparent! placeholder:text-muted-foreground truncate flex-1'
+                    placeholder='Untitled Note'
+                    value={titleInput}
+                    onChange={(e) => setTitleInput(e.target.value)}
+                  />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side='bottom' className='max-w-[300px]'>
+                <p>{titleInput || 'Untitled Note'}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         )}
       </div>
-      <div className='flex items-center gap-2 text-zinc-400'>
-        <Button
-          variant='ghost'
-          size='icon'
-          className='h-8 w-8 hover:text-white'
-        >
-          <MoreHorizontal className='h-4 w-4' />
-        </Button>
+      <div className='flex items-center gap-3 text-muted-foreground'>
+        <div className='hidden md:flex items-center text-xs font-bold font-mono tracking-widest rounded-sm border border-border p-0.5 mr-2'>
+          <button className='px-3 py-1 bg-secondary text-foreground rounded-sm'>
+            WRITE
+          </button>
+          <button className='px-3 py-1 hover:text-foreground hover:bg-secondary rounded-sm transition-colors'>
+            PREVIEW
+          </button>
+        </div>
         <AnimatedThemeToggler />
       </div>
     </header>

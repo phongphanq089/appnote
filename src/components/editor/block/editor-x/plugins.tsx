@@ -99,17 +99,19 @@ import { ShareContentPlugin } from '../../plugins/actions/share-content-plugin'
 import { ImportExportPlugin } from '../../plugins/actions/import-export-plugin'
 import { MarkdownTogglePlugin } from '../../plugins/actions/markdown-toggle-plugin'
 import { EditModeTogglePlugin } from '../../plugins/actions/edit-mode-toggle-plugin'
-import { ClearEditorActionPlugin } from '../../plugins/actions/clear-editor-plugin'
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin'
 import { TreeViewPlugin } from '../../plugins/actions/tree-view-plugin'
+import { ClearEditorActionPlugin } from '../../plugins/actions/clear-editor-plugin'
 import { ScrollArea, ScrollBar } from '~/components/ui/scroll-area'
-import { MAX_NOTE_SIZE } from '~/lib/utils'
 import { DownloadHtmlPlugin } from '../../plugins/download-html-plugin'
+import { Save } from 'lucide-react'
+import { Button } from '~/components/ui/button'
+import { MAX_NOTE_SIZE } from '~/lib/utils'
 
 const placeholder = 'Press / for commands...'
 const maxLength = MAX_NOTE_SIZE
 
-export function Plugins() {
+export function Plugins({ onSave }: { onSave?: () => void }) {
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null)
 
@@ -291,9 +293,7 @@ export function Plugins() {
             </div>
             <div className='flex flex-1 justify-end'>
               <SpeechToTextPlugin />
-              <ShareContentPlugin />
               <ImportExportPlugin />
-              <DownloadHtmlPlugin />
               <MarkdownTogglePlugin
                 shouldPreserveNewLinesInMarkdown={true}
                 transformers={[
@@ -311,7 +311,6 @@ export function Plugins() {
               />
               <EditModeTogglePlugin />
               <>
-                <ClearEditorActionPlugin />
                 <ClearEditorPlugin />
               </>
               <TreeViewPlugin />
@@ -319,6 +318,26 @@ export function Plugins() {
           </div>
           <ScrollBar orientation='horizontal' />
         </ScrollArea>
+
+        {/* Floating Actions */}
+        <div className='absolute bottom-20 right-0 flex flex-col items-center bg-background border-border border rounded-sm overflow-hidden shadow-xl z-50'>
+          {onSave && (
+            <Button
+              variant='ghost'
+              size='icon'
+              onClick={onSave}
+              title='Save Note'
+              className='w-10 h-10 border-b border-border bg-primary/20 hover:bg-primary/40 rounded-none flex items-center justify-center transition-all opacity-80 hover:opacity-100 group'
+            >
+              <Save className='h-5 w-5 text-primary group-hover:scale-110 transition-transform' />
+            </Button>
+          )}
+          <ShareContentPlugin />
+          <DownloadHtmlPlugin />
+          <div className='w-full border-t border-border'>
+            <ClearEditorActionPlugin />
+          </div>
+        </div>
       </ActionsPlugin>
     </div>
   )

@@ -7,16 +7,17 @@ export const editorTheme: EditorThemeClasses = {
   rtl: 'text-right',
 
   heading: {
-    h1: 'scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl',
-    h2: 'scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0',
-    h3: 'scroll-m-20 text-2xl font-semibold tracking-tight',
-    h4: 'scroll-m-20 text-xl font-semibold tracking-tight',
-    h5: 'scroll-m-20 text-lg font-semibold tracking-tight',
-    h6: 'scroll-m-20 text-base font-semibold tracking-tight',
+    h1: 'scroll-m-20 text-3xl md:text-4xl font-bold tracking-widest uppercase text-primary mb-6',
+    h2: 'scroll-m-20 border-b border-border pb-2 text-2xl font-bold tracking-wider text-primary mt-8 mb-4 uppercase',
+    h3: 'scroll-m-20 text-xl font-bold tracking-wide text-primary mt-6 mb-2',
+    h4: 'scroll-m-20 text-lg font-bold tracking-wide text-primary mt-4 mb-2',
+    h5: 'scroll-m-20 text-base font-bold tracking-wide text-primary mt-4 mb-2',
+    h6: 'scroll-m-20 text-sm font-bold tracking-wide text-primary mt-4 mb-2',
   },
-  paragraph: 'leading-7 [&:not(:first-child)]:mt-6',
-  quote: 'mt-6 border-l-2 pl-6 italic',
-  link: 'text-blue-600 hover:underline hover:cursor-pointer',
+  paragraph:
+    'leading-7 [&:not(:first-child)]:mt-4 text-foreground font-mono text-[15px]',
+  quote: 'mt-6 border-l-2 border-primary pl-6 italic text-muted-foreground',
+  link: 'text-primary hover:underline hover:cursor-pointer',
   list: {
     checklist: 'relative',
     listitem: 'mx-8',
@@ -46,8 +47,8 @@ export const editorTheme: EditorThemeClasses = {
   },
   hashtag: 'text-blue-600 bg-blue-100 rounded-md px-1',
   text: {
-    bold: 'font-bold',
-    code: 'bg-gradient-to-r from-purple-700 via-fuchsia-600 to-red-800 py-1 px-3 rounded-md text-white font-bold',
+    bold: 'font-bold text-primary',
+    code: 'bg-muted py-0.5 px-1.5 rounded-sm text-primary font-mono text-sm border border-border',
     italic: 'italic',
     strikethrough: 'line-through',
     subscript: 'sub',

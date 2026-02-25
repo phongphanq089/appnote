@@ -42,7 +42,7 @@ const UserLayout = () => {
               collapsedSize={0}
               onCollapse={() => setIsLeftCollapsed(true)}
               onExpand={() => setIsLeftCollapsed(false)}
-              className={`bg-accent dark:bg-[#202022] border-r dark:border-zinc-800 transition-all duration-300 ease-in-out ${
+              className={`bg-background border-r border-border transition-all duration-300 ease-in-out ${
                 isLeftCollapsed ? 'min-w-0' : ''
               }`}
             >
@@ -51,7 +51,7 @@ const UserLayout = () => {
 
             <ResizableHandle
               withHandle
-              className='bg-accent dark:bg-zinc-800 hover:bg-blue-600 transition-colors w-px'
+              className='bg-border hover:bg-primary transition-colors w-px'
             />
 
             {/* === PANEL 2: MIDDLE SIDEBAR NOTE (List) === */}
@@ -59,7 +59,7 @@ const UserLayout = () => {
               defaultSize={25}
               minSize={20}
               maxSize={isLeftCollapsed ? 20 : 40}
-              className='bg-accent dark:bg-[#202022] border-r dark:border-zinc-800 flex flex-col min-w-[250px]'
+              className='bg-background border-r border-border flex flex-col min-w-[250px]'
             >
               <HeaderNode />
               <SidebarNoteList />
@@ -67,14 +67,14 @@ const UserLayout = () => {
 
             <ResizableHandle
               withHandle
-              className='bg-accent dark:bg-zinc-800 hover:bg-blue-600 transition-colors w-px'
+              className='bg-border hover:bg-primary transition-colors w-px'
             />
 
             {/* === PANEL 3: MAIN EDITOR === */}
             <ResizablePanel
               defaultSize={55}
               minSize={30}
-              className='bg-background dark:bg-[#1e1e1e] flex flex-col min-w-[400px]'
+              className='bg-background flex flex-col min-w-[400px]'
             >
               <EditorHeader />
               <EditorContent />

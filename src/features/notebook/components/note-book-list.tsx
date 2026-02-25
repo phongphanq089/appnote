@@ -24,7 +24,7 @@ const NoteBookList = () => {
           key={notebook.$id}
           icon={
             <Folder
-              className={`h-4 w-4 text-primary`}
+              className={`h-4 w-4`}
               fill='currentColor'
               fillOpacity={0.2}
             />

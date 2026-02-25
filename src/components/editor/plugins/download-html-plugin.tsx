@@ -210,8 +210,9 @@ export function DownloadHtmlPlugin() {
           size='icon'
           onClick={handleDownload}
           title='Download HTML'
+          className='w-10 h-10 border border-border bg-background hover:bg-secondary rounded-none flex items-center justify-center transition-all opacity-80 hover:opacity-100 group'
         >
-          <FileDown className='h-4 w-4' />
+          <FileDown className='h-5 w-5 text-primary group-hover:scale-110 transition-transform' />
         </Button>
       </TooltipTrigger>
       <TooltipContent>Download HTML</TooltipContent>

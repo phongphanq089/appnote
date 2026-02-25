@@ -24,11 +24,13 @@ export function Editor({
   editorSerializedState,
   onChange,
   onSerializedChange,
+  onSave,
 }: {
   editorState?: EditorState
   editorSerializedState?: SerializedEditorState
   onChange?: (editorState: EditorState) => void
   onSerializedChange?: (editorSerializedState: SerializedEditorState) => void
+  onSave?: () => void
 }) {
   return (
     <div className='bg-background   border flex flex-col h-full w-full overflow-hidden'>
@@ -42,7 +44,7 @@ export function Editor({
         }}
       >
         <TooltipProvider>
-          <Plugins />
+          <Plugins onSave={onSave} />
 
           <OnChangePlugin
             ignoreSelectionChange={true}

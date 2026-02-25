@@ -11,10 +11,10 @@ const AppSidebarContent = () => {
   console.log(user, 'ksadhlkasjd')
   const { mutate: logout } = authQuery.useLogOut()
   return (
-    <div className='flex flex-col h-full bg-gray-100 text-black font-bold dark:text-zinc-400 dark:bg-[#18181b]'>
+    <div className='flex flex-col h-full bg-background text-foreground tracking-tight'>
       <div className='p-4 flex items-center gap-10 md:justify-between h-14 flex-none'>
-        <div className='flex items-center gap-2 font-semibold dark:text-zinc-100'>
-          <span className='text-sm'>NOTEBOOKS</span>
+        <div className='flex items-center gap-2 font-bold text-primary'>
+          <span className='text-sm uppercase tracking-widest'>_NOTEBOOKS</span>
         </div>
 
         <ModalAction
@@ -24,7 +24,11 @@ const AppSidebarContent = () => {
             email: user?.email as string,
           }}
           trigger={
-            <Button variant='ghost' size='icon' className='h-6 w-6'>
+            <Button
+              variant='ghost'
+              size='icon'
+              className='h-6 w-6 text-primary hover:text-primary-foreground hover:bg-primary rounded-sm transition-colors'
+            >
               <Plus className='h-4 w-4' />
             </Button>
           }
@@ -36,23 +40,28 @@ const AppSidebarContent = () => {
         </ScrollArea>
       </div>
 
-      <div className='p-3 border-t dark:border-zinc-800 flex-none px-3'>
+      <div className='p-3 border-t border-border flex-none px-3'>
         <div className='flex items-center gap-3'>
           <Button
             type='button'
             onClick={() => logout()}
             variant={'outline'}
-            className='flex items-center justify-between min-h-[55px] w-full'
+            className='flex items-center justify-between min-h-[55px] w-full border-border bg-background hover:bg-secondary hover:text-foreground text-left'
           >
-            <div className='flex text-start justify-start flex-col gap-1'>
-              <h4 className='font-bold text-gray-700 dark:text-white uppercase'>
-                Logout
-              </h4>
-              <p className='text-xs font-light text-gray-700 dark:text-gray-300'>
-                {user?.email}
-              </p>
+            <div className='flex items-center gap-3'>
+              <div className='w-8 h-8 flex items-center justify-center bg-primary text-primary-foreground font-bold text-lg rounded-sm'>
+                {user?.email?.charAt(0).toUpperCase() || 'U'}
+              </div>
+              <div className='flex flex-col gap-0.5 leading-tight'>
+                <h4 className='font-bold text-primary uppercase text-xs tracking-wider'>
+                  DEV_NODE_ON
+                </h4>
+                <p className='text-[10px] font-mono text-muted-foreground'>
+                  user@{user?.email || 'local'}
+                </p>
+              </div>
             </div>
-            <LogOut />
+            <LogOut className='w-4 h-4 text-muted-foreground' />
           </Button>
         </div>
       </div>

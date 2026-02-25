@@ -8,7 +8,7 @@ import {
 } from '@lexical/file'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { CLEAR_HISTORY_COMMAND } from 'lexical'
-import { SendIcon } from 'lucide-react'
+import { Share2Icon } from 'lucide-react'
 import { toast } from 'sonner'
 
 import {
@@ -49,18 +49,18 @@ export function ShareContentPlugin() {
             shareDoc(
               serializedDocumentFromEditorState(editor.getEditorState(), {
                 source: 'editor',
-              })
+              }),
             ).then(
               () => toast.success('URL copied to clipboard'),
-              () => toast.error('URL could not be copied to clipboard')
+              () => toast.error('URL could not be copied to clipboard'),
             )
           }
           title='Share'
           aria-label='Share Playground link to current editor state'
-          size={'sm'}
-          className='p-2'
+          size={'icon'}
+          className='w-10 h-10 border border-border bg-background hover:bg-secondary rounded-none flex items-center justify-center transition-all opacity-80 hover:opacity-100 group'
         >
-          <SendIcon className='size-4' />
+          <Share2Icon className='size-5 text-primary group-hover:scale-110 transition-transform' />
         </Button>
       </TooltipTrigger>
       <TooltipContent>Share Content</TooltipContent>

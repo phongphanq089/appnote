@@ -1,6 +1,12 @@
 import { Edit } from 'lucide-react'
 import { useSearchParams } from 'react-router'
 import { Button } from '~/components/ui/button'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '~/components/ui/tooltip'
 import ModalAction from './modal-action'
 
 export function NodeBookItem({
@@ -24,22 +30,38 @@ export function NodeBookItem({
 
   return (
     <div
-      className={`w-full justify-start px-2 py-2 text-sm font-normal relative rounded-sm ${
+      className={`w-full justify-start px-2 py-1.5 text-sm font-normal relative rounded-none transition-colors group ${
         activeNotebookId === id
-          ? 'bg-primary/20 text-priamry font-bold'
-          : 'dark:text-zinc-400 hover:dark:text-zinc-100 hover:dark:bg-zinc-800 hover:bg-gray-200'
+          ? 'bg-primary text-primary-foreground font-bold'
+          : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
       }`}
     >
       <Button
         variant='ghost'
         onClick={() => handleSelectNotebook(id)}
-        className='flex justify-start gap-2 w-full pr-10 hover:bg-transparent'
+        className={`flex justify-start gap-2 w-full pr-10 hover:bg-transparent rounded-none h-8 ${activeNotebookId === id ? 'text-primary-foreground' : ''}`}
       >
-        <span className='mr-2 opacity-100'>{icon}</span>
-        <div className='w-full '>
-          <span className='flex-1 block text-left whitespace-normal leading-snug max-w-[80%] overflow-hidden text-ellipsis'>
-            {label}
-          </span>
+        <span
+          className={`mr-2 flex items-center justify-center opacity-100 ${activeNotebookId === id ? 'text-black' : 'text-primary'}`}
+        >
+          {icon}
+        </span>
+        <div className='w-full overflow-hidden'>
+          <TooltipProvider delayDuration={300}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className='flex-1 block text-left whitespace-nowrap overflow-hidden text-ellipsis w-full'>
+                  {label}
+                </span>
+              </TooltipTrigger>
+              <TooltipContent
+                side='right'
+                className='max-w-[300px] wrap-break-word'
+              >
+                <p>{label}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </Button>
 
@@ -51,8 +73,10 @@ export function NodeBookItem({
             title: label,
           }}
           trigger={
-            <span className='cursor-pointer'>
-              <Edit className='text-red-500' size={16} />
+            <span
+              className={`cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity ${activeNotebookId === id ? 'text-primary-foreground hover:text-background' : 'text-muted-foreground hover:text-primary'}`}
+            >
+              <Edit size={14} />
             </span>
           }
         />
